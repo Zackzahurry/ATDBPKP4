@@ -3,8 +3,14 @@ import { GoogleGenAI } from "@google/genai";
 import { MaintenanceReport } from "../types";
 
 export const analyzeReport = async (report: MaintenanceReport): Promise<string> => {
-  // // Fix: Initialize GoogleGenAI strictly using the process.env.API_KEY variable as per GenAI coding guidelines.
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  
+  if (!apiKey) {
+    console.warn("API_KEY tidak dijumpai dalam environment variables.");
+    return "Analisis AI tidak tersedia (API Key tiada).";
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   const prompt = `
     Analisis laporan senggaraan berikut dan berikan ringkasan eksekutif dalam Bahasa Melayu.
@@ -20,10 +26,9 @@ export const analyzeReport = async (report: MaintenanceReport): Promise<string> 
       model: 'gemini-3-flash-preview',
       contents: prompt,
     });
-    // // Fix: Ensure the .text property is accessed directly as per the latest SDK requirements.
     return response.text || "Tiada analisis tersedia.";
   } catch (error) {
     console.error("Gemini Error:", error);
-    return "Gagal melakukan analisis AI.";
+    return "Gagal melakukan analisis AI. Sila semak sambungan atau API Key.";
   }
 };

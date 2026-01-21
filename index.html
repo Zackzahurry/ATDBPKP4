@@ -13,7 +13,22 @@
       .no-print { display: none; }
       .print-only { display: block; }
     }
+    /* Mencegah skrin putih kosong semasa loading */
+    #root:empty::before {
+      content: 'Memuatkan sistem...';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: #64748b;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
   </style>
+  <script>
+    // Shim untuk process.env supaya aplikasi tidak crash di browser
+    window.process = window.process || { env: {} };
+  </script>
 <script type="importmap">
 {
   "imports": {
