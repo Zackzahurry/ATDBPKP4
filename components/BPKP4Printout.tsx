@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MaintenanceReport } from '../types';
+import { MaintenanceReport } from '../types.ts';
 
 interface BPKP4PrintoutProps {
   report: MaintenanceReport;
@@ -33,7 +33,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
     <div className="bg-white mx-auto max-w-[210mm] text-black font-serif text-[11px] leading-tight print:p-0">
       
       {/* PAGE 1 */}
-      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 border-b-2 border-dashed border-slate-200 print:border-none">
+      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 border-b-2 border-dashed border-slate-200 print:border-none print:min-h-screen">
         
         {/* Header Fixed - TOP (Centered TERHAD) */}
         <div className="relative mb-6">
@@ -80,7 +80,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
                 <p>No Permohonan/Rujukan: <span className="font-bold ml-1 uppercase">{report.noPermohonan}</span></p>
                 <p>Tarikh Permohonan : <span className="font-bold ml-1">{new Date(report.tarikhPermohonan).toLocaleDateString('ms-MY')}</span></p>
                 <p>Kem : <span className="font-bold uppercase ml-1">{report.kem}</span></p>
-                <p>No Bangunan : <span className="font-bold uppercase ml-1">{report.noBangunanUtama}</span></p>
+                <p>No Bangunan & Kegunaan: <span className="font-bold uppercase ml-1">{report.noBangunanUtama}</span></p>
                 <p className="pt-2">Baki Peruntukan : ___________________________</p>
                 <p className="pt-4 text-[10px] leading-tight font-bold italic">Tandatangan Pegawai Yang Dibenarkan Membuat Permohonan :</p>
                 <div className="h-14"></div>
@@ -101,7 +101,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
             <thead>
               <tr className="bg-slate-50">
                 <th className="border-2 border-black p-2 w-12 text-[10.5px] uppercase">Bil</th>
-                <th className="border-2 border-black p-2 w-1/3 text-[10.5px] uppercase">No Bangunan &amp; Nama Prasarana</th>
+                <th className="border-2 border-black p-2 w-1/3 text-[10.5px] uppercase">No Bangunan &amp; Kegunaan</th>
                 <th className="border-2 border-black p-2 text-[10.5px] uppercase">Butiran Kerja</th>
                 <th className="border-2 border-black p-2 text-[10.5px] uppercase">Catatan</th>
               </tr>
@@ -157,7 +157,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
       </div>
 
       {/* PAGE 2 */}
-      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page border-b-2 border-dashed border-slate-200 print:border-none">
+      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page border-b-2 border-dashed border-slate-200 print:border-none print:min-h-screen">
         {/* Header Fixed - TOP (Centered TERHAD) */}
         <div className="text-center font-bold uppercase text-[11px] mb-10">TERHAD</div>
 
@@ -228,7 +228,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
       </div>
 
       {/* PAGE 3: PHOTOS */}
-      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page">
+      <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page print:min-h-screen">
         <div className="text-center font-bold uppercase text-[11px] mb-10">TERHAD</div>
 
         <div className="flex-1">

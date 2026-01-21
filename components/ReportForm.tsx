@@ -88,7 +88,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
 
   return (
     <div className="space-y-6 pb-12">
-      <div className="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl shadow-sm animate-in fade-in duration-700">
+      <div className="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl shadow-sm animate-in fade-in duration-700 no-print">
         <div className="flex gap-3">
           <AlertTriangle className="text-amber-600 shrink-0" size={24} />
           <div className="space-y-1">
@@ -151,8 +151,8 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
                       <input required type="text" value={formData.kem} onChange={e => setFormData({...formData, kem: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-medium" placeholder="Cth: KEM SEGENTING" />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5 ml-1">No. Bangunan Utama</label>
-                      <input required type="text" value={formData.noBangunanUtama} onChange={e => setFormData({...formData, noBangunanUtama: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-medium" placeholder="Cth: B-01" />
+                      <label className="block text-[10px] font-bold text-slate-500 uppercase mb-1.5 ml-1">No. Bangunan & Kegunaan</label>
+                      <input required type="text" value={formData.noBangunanUtama} onChange={e => setFormData({...formData, noBangunanUtama: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-medium" placeholder="Cth: B-01 (Pejabat)" />
                     </div>
                   </div>
                 </div>
@@ -180,7 +180,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
             <section className="space-y-5">
               <div className="flex items-center justify-between border-b pb-2">
                 <h3 className="text-xs font-black text-slate-800 uppercase tracking-widest">Senarai Butiran Kerosakan</h3>
-                <button type="button" onClick={addItem} className="text-[10px] bg-blue-600 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 hover:bg-blue-700 transition shadow-sm">
+                <button type="button" onClick={addItem} className="text-[10px] bg-blue-600 text-white px-3 py-1.5 rounded-lg font-bold flex items-center gap-1 hover:bg-blue-700 transition shadow-sm no-print">
                   <Plus size={14} /> TAMBAH ITEM
                 </button>
               </div>
@@ -190,10 +190,10 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
                   <thead>
                     <tr className="bg-slate-100 text-slate-500 uppercase text-[9px] font-black border-b border-slate-200">
                       <th className="px-4 py-3 text-left w-12">Bil</th>
-                      <th className="px-4 py-3 text-left">No Bangunan &amp; Nama Prasarana</th>
+                      <th className="px-4 py-3 text-left">No Bangunan &amp; Kegunaan</th>
                       <th className="px-4 py-3 text-left">Butiran Kerosakan</th>
                       <th className="px-4 py-3 text-center w-24">Kuantiti</th>
-                      <th className="px-4 py-3 text-center w-12"></th>
+                      <th className="px-4 py-3 text-center w-12 no-print"></th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -201,7 +201,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
                       <tr key={item.id} className="group hover:bg-white transition-colors">
                         <td className="px-4 py-4 text-center font-bold text-slate-400">{index + 1}</td>
                         <td className="px-4 py-4">
-                          <input required type="text" value={item.noBangunan} onChange={e => updateItem(item.id, 'noBangunan', e.target.value)} className="w-full bg-transparent outline-none focus:text-blue-600 font-bold uppercase" placeholder="No Bangunan & Nama Prasarana" />
+                          <input required type="text" value={item.noBangunan} onChange={e => updateItem(item.id, 'noBangunan', e.target.value)} className="w-full bg-transparent outline-none focus:text-blue-600 font-bold uppercase" placeholder="No Bangunan & Kegunaan" />
                         </td>
                         <td className="px-4 py-4">
                           <input required type="text" value={item.butiranKerja} onChange={e => updateItem(item.id, 'butiranKerja', e.target.value)} className="w-full bg-transparent outline-none focus:text-blue-600 uppercase font-medium" placeholder="Cth: SILING PECAH" />
@@ -209,7 +209,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
                         <td className="px-4 py-4 text-center">
                           <input required type="number" min="1" value={item.kuantiti} onChange={e => updateItem(item.id, 'kuantiti', e.target.value)} className="w-16 px-2 py-1 bg-white border border-slate-200 rounded text-center font-bold" />
                         </td>
-                        <td className="px-4 py-4 text-center">
+                        <td className="px-4 py-4 text-center no-print">
                           <button type="button" onClick={() => removeItem(item.id)} className="text-slate-300 hover:text-red-500 transition-colors">
                             <Trash2 size={16} />
                           </button>
@@ -244,7 +244,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
             </section>
           </div>
 
-          <div className="p-8 bg-slate-50 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="p-8 bg-slate-50 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4 no-print">
             <p className="text-xs text-slate-500 italic max-w-md leading-relaxed font-medium">
               Pastikan semua maklumat, jenis kerja, dan gambar adalah tepat sebelum menghantar permohonan digital ini.
             </p>

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Eye, Clock, CheckCircle, Search, MessageSquare, ChevronRight, FileText, Printer, ShieldCheck, AlertCircle, Info, ClipboardList, Calendar, Hash, Lock, LogIn, Download, FileSpreadsheet } from 'lucide-react';
+import { Eye, Clock, CheckCircle, Search, MessageSquare, ChevronRight, FileText, Printer, ShieldCheck, AlertCircle, Info, ClipboardList, Calendar, Hash, Lock, LogIn, Download, FileSpreadsheet, Save } from 'lucide-react';
 import { MaintenanceReport, ReportStatus } from '../types.ts';
 import BPKP4Printout from './BPKP4Printout.tsx';
 
@@ -32,6 +32,10 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
     } else {
       setLoginError(true);
     }
+  };
+
+  const handlePrint = () => {
+    window.print();
   };
 
   const formatDate = (dateStr: string) => {
@@ -211,7 +215,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
         <div>
           <h2 className="text-2xl font-black text-slate-800 tracking-tight uppercase">
             {isAdminMode ? 'Pusat Kawalan Senggaraan' : 'Status Permohonan'}
@@ -293,7 +297,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
 
       {selectedReport && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md overflow-y-auto">
-          <div className="bg-slate-50 w-full max-w-5xl my-auto rounded-3xl shadow-2xl overflow-hidden flex flex-col">
+          <div className="bg-slate-50 w-full max-w-5xl my-auto rounded-3xl shadow-2xl overflow-hidden flex flex-col print:bg-white print:p-0 print:shadow-none print:max-w-none print:rounded-none">
             <div className="p-6 border-b bg-white flex items-center justify-between no-print">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center"><FileText size={20} /></div>
@@ -305,12 +309,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                 </div>
               </div>
               <div className="flex gap-2">
+                {viewPrintMode && (
+                  <button 
+                    onClick={handlePrint}
+                    className="px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100"
+                  >
+                    <Save size={16} /> SAVE PDF / PRINT
+                  </button>
+                )}
                 <button 
                   onClick={() => setViewPrintMode(!viewPrintMode)}
                   className="px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 border-2 bg-white text-blue-600 border-blue-100 hover:border-blue-500 shadow-sm"
                 >
                   {viewPrintMode ? <ChevronRight className="rotate-180" size={16} /> : <Printer size={16} />}
-                  {viewPrintMode ? 'KEMBALI KE DETAIL' : 'CETAK BPKP 4 (PDF)'}
+                  {viewPrintMode ? 'KEMBALI KE DETAIL' : 'CETAK BPKP 4'}
                 </button>
                 <button onClick={() => setSelectedReport(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
                   <ChevronRight className="rotate-45" size={24} />
@@ -318,14 +330,14 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
               </div>
             </div>
             
-            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8">
+            <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-8 print:p-0 print:overflow-visible">
               {viewPrintMode ? (
-                <div className="bg-white rounded-xl shadow-inner border p-2">
+                <div className="bg-white rounded-xl shadow-inner border p-2 print:border-none print:shadow-none print:p-0 print-container">
                   <BPKP4Printout report={selectedReport} />
                 </div>
               ) : (
                 <>
-                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+                  <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm no-print">
                     <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest border-b pb-3 mb-8">
                        <Clock size={16} className="text-blue-500" /> Aliran Status Permohonan
                     </div>
@@ -393,7 +405,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                          <div>
                             <h4 className="text-[11px] font-black text-blue-900 uppercase mb-2">Peringatan Penting</h4>
                             <p className="text-xs text-blue-800 leading-relaxed font-medium">
-                              Sila pastikan maklumat di bawah lengkap. Tekan butang <strong>"CETAK BPKP 4 (PDF)"</strong> untuk menyediakan dokumen rasmi bagi tujuan penghantaran fizikal.
+                              Sila pastikan maklumat di bawah lengkap. Tekan butang <strong>"CETAK BPKP 4"</strong> untuk menyediakan dokumen rasmi bagi tujuan penghantaran fizikal.
                             </p>
                          </div>
                       </div>
@@ -401,7 +413,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                   </div>
 
                   {isAdminMode && (
-                    <div className="bg-blue-600 text-white rounded-2xl p-8 shadow-xl space-y-6">
+                    <div className="bg-blue-600 text-white rounded-2xl p-8 shadow-xl space-y-6 no-print">
                       <h4 className="text-xs font-black uppercase tracking-widest text-blue-100 flex items-center gap-2">
                         <ShieldCheck size={20} /> Kawalan Pentadbir Cwg Log Senggaraan
                       </h4>
@@ -469,7 +481,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                     </div>
                   )}
 
-                  <div className="space-y-10">
+                  <div className="space-y-10 no-print">
                     <div className="grid md:grid-cols-2 gap-8">
                       <section className="space-y-4">
                         <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b pb-2 flex items-center gap-2">
@@ -531,7 +543,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                           <thead className="bg-slate-50 text-slate-500 font-black uppercase text-[9px]">
                             <tr>
                               <th className="px-4 py-3 w-12 text-center">Bil</th>
-                              <th className="px-4 py-3">No. Bangunan & Nama Prasarana</th>
+                              <th className="px-4 py-3">No. Bangunan & Kegunaan</th>
                               <th className="px-4 py-3">Butiran Kerosakan</th>
                               <th className="px-4 py-3 w-20 text-center">Kuantiti</th>
                             </tr>

@@ -18,6 +18,25 @@
       color: #64748b;
       font-weight: 600;
     }
+    
+    /* Gaya untuk Cetakan */
+    @media print {
+      .no-print { display: none !important; }
+      body { background-color: white !important; }
+      .print-container { 
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      @page {
+        size: A4;
+        margin: 0;
+      }
+    }
+
     .error-container {
       padding: 40px;
       max-width: 600px;
@@ -31,9 +50,7 @@
     .error-code { background: #f1f5f9; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 0.75rem; overflow-x: auto; }
   </style>
   <script>
-    // WAJIB: Define process sebelum sebarang module dimuatkan
     window.process = { env: { API_KEY: "" } };
-    
     window.onerror = function(msg, url, line, col, error) {
       const root = document.getElementById('root');
       if (root) {
