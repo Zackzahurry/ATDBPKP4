@@ -1,8 +1,8 @@
 
 import React, { useState } from 'react';
 import { Eye, Clock, CheckCircle, Search, MessageSquare, ChevronRight, FileText, Printer, ShieldCheck, AlertCircle, Info, ClipboardList, Calendar, Hash, Lock, LogIn, Download, FileSpreadsheet } from 'lucide-react';
-import { MaintenanceReport, ReportStatus } from '../types';
-import BPKP4Printout from './BPKP4Printout';
+import { MaintenanceReport, ReportStatus } from '../types.ts';
+import BPKP4Printout from './BPKP4Printout.tsx';
 
 interface AdminDashboardProps {
   reports: MaintenanceReport[];

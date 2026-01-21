@@ -1,9 +1,8 @@
 
 import React, { useState } from 'react';
-// Fix: Remove duplicate imports and fix incorrect import source 'lucide-center'.
 import { Plus, Trash2, Send, Info, AlertTriangle, FileText, CheckCircle } from 'lucide-react';
-import { MaintenanceReport, ReportStatus, WorkDetail } from '../types';
-import ImageUpload from './ImageUpload';
+import { MaintenanceReport, ReportStatus, WorkDetail } from '../types.ts';
+import ImageUpload from './ImageUpload.tsx';
 
 interface ReportFormProps {
   onSubmit: (formData: Omit<MaintenanceReport, 'id' | 'sequence' | 'createdAt' | 'status'>) => void;

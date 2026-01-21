@@ -1,9 +1,9 @@
 
 import React, { useState } from 'react';
-import Layout from './components/Layout';
-import ReportForm from './components/ReportForm';
-import AdminDashboard from './components/AdminDashboard';
-import { MaintenanceReport, ReportStatus } from './types';
+import Layout from './components/Layout.tsx';
+import ReportForm from './components/ReportForm.tsx';
+import AdminDashboard from './components/AdminDashboard.tsx';
+import { MaintenanceReport, ReportStatus } from './types.ts';
 
 const INITIAL_REPORTS: MaintenanceReport[] = [
   {
