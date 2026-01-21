@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Sistem Pelaporan BPKP 4 Online",
+  "description": "A digital maintenance reporting system based on the Malaysian BPKP 4 form, allowing users to submit maintenance requests with photos and track status.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
