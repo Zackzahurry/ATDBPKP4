@@ -32,13 +32,14 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
   return (
     <div className="bg-white mx-auto max-w-[210mm] text-black font-serif text-[11px] leading-tight print:p-0">
       
-      {/* PAGE 1 */}
+      {/* PAGE 1 - A-1 */}
       <div className="min-h-[297mm] flex flex-col relative px-10 py-8 border-b-2 border-dashed border-slate-200 print:border-none print:min-h-screen">
         
-        {/* Header Fixed - TOP (Centered TERHAD) */}
+        {/* Header Fixed - TOP */}
         <div className="relative mb-6">
           <div className="text-center font-bold uppercase text-[11px]">TERHAD</div>
-          <div className="absolute right-0 top-0 text-right leading-none uppercase underline decoration-1 underline-offset-2 font-bold text-[11px]">
+          <div className="text-center font-bold text-[11px] -mt-1">A-1</div>
+          <div className="absolute right-0 top-0 text-right leading-none uppercase underline decoration-1 underline-offset-2 font-bold text-[10px]">
             KEMBARAN A KEPADA<br />
             ATD.BPL.200 – 7/1/3 ( )<br />
             BERTARIKH &nbsp;&nbsp;&nbsp;&nbsp; JAN 26
@@ -46,7 +47,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
         </div>
 
         {/* Content Body */}
-        <div className="flex-1 mt-6">
+        <div className="flex-1 mt-4">
           <div className="text-center mb-6">
             <h1 className="font-bold text-[13px] uppercase tracking-wide">KERAJAAN MALAYSIA</h1>
             <h2 className="font-bold text-[13px] uppercase tracking-tight">PERMOHONAN KERJA-KERJA SENGGARAAN</h2>
@@ -59,7 +60,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
 
           {/* Dual Box Layout */}
           <div className="grid grid-cols-2 border-2 border-black divide-x-2 divide-black">
-            {/* Left Box: BPKP/UPKAT */}
+            {/* Left Box */}
             <div className="p-3 space-y-4 min-h-[220px]">
               <h3 className="font-bold underline uppercase text-[10.5px]">UNTUK DIISI OLEH BPKP/UPKAT</h3>
               <div className="space-y-3 text-[10.5px]">
@@ -72,7 +73,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
               </div>
             </div>
 
-            {/* Right Box: PASUKAN */}
+            {/* Right Box */}
             <div className="p-3 space-y-3 min-h-[220px] relative">
               <h3 className="font-bold underline uppercase text-[10.5px]">UNTUK DIISI OLEH PASUKAN</h3>
               <div className="space-y-2 text-[10.5px]">
@@ -150,16 +151,13 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
           </div>
         </div>
 
-        {/* Footer - Page 1 */}
-        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">
-           TERHAD
-        </div>
+        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">TERHAD</div>
       </div>
 
-      {/* PAGE 2 */}
+      {/* PAGE 2 - A-2 */}
       <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page border-b-2 border-dashed border-slate-200 print:border-none print:min-h-screen">
-        {/* Header Fixed - TOP (Centered TERHAD) */}
-        <div className="text-center font-bold uppercase text-[11px] mb-10">TERHAD</div>
+        <div className="text-center font-bold uppercase text-[11px]">TERHAD</div>
+        <div className="text-center font-bold text-[11px] -mt-1 mb-8">A-2</div>
 
         {/* Body Content B-E */}
         <div className="flex-1 space-y-12">
@@ -221,15 +219,13 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
           <p>• Boleh disertakan dalam lampiran menggunakan Format Borang serupa jika ruangan tidak mencukupi.</p>
         </div>
 
-        {/* Footer - Page 2 */}
-        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">
-           TERHAD
-        </div>
+        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">TERHAD</div>
       </div>
 
-      {/* PAGE 3: PHOTOS */}
+      {/* PAGE 3 - A-3: PHOTOS */}
       <div className="min-h-[297mm] flex flex-col relative px-10 py-8 print:break-before-page print:min-h-screen">
-        <div className="text-center font-bold uppercase text-[11px] mb-10">TERHAD</div>
+        <div className="text-center font-bold uppercase text-[11px]">TERHAD</div>
+        <div className="text-center font-bold text-[11px] -mt-1 mb-8">A-3</div>
 
         <div className="flex-1">
            <h3 className="font-bold text-center underline uppercase mb-12 text-[12px] decoration-2 underline-offset-4 tracking-widest">LAMPIRAN GAMBAR BUKTI KEROSAKAN (4 SUDUT)</h3>
@@ -253,10 +249,7 @@ const BPKP4Printout: React.FC<BPKP4PrintoutProps> = ({ report }) => {
            </div>
         </div>
 
-        {/* Footer - Page 3 */}
-        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">
-           TERHAD
-        </div>
+        <div className="mt-auto pt-8 text-center text-[11px] font-bold uppercase">TERHAD</div>
       </div>
     </div>
   );

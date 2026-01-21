@@ -298,32 +298,42 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
       {selectedReport && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/90 backdrop-blur-md overflow-y-auto">
           <div className="bg-slate-50 w-full max-w-5xl my-auto rounded-3xl shadow-2xl overflow-hidden flex flex-col print:bg-white print:p-0 print:shadow-none print:max-w-none print:rounded-none">
-            <div className="p-6 border-b bg-white flex items-center justify-between no-print">
+            <div className="p-6 border-b bg-white flex items-center justify-between no-print sticky top-0 z-20">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 bg-slate-900 text-white rounded-xl flex items-center justify-center"><FileText size={20} /></div>
                 <div>
-                  <h3 className="font-black text-slate-800 uppercase tracking-tighter">
+                  <h3 className="font-black text-slate-800 uppercase tracking-tighter text-sm md:text-base">
                     {viewPrintMode ? 'Paparan BPKP 4 Rasmi' : 'Butiran Laporan Digital'}
                   </h3>
-                  <p className="text-[10px] text-blue-600 font-mono font-black uppercase">{selectedReport.id} BERTARIKH {formatDate(selectedReport.createdAt)}</p>
+                  <p className="text-[9px] md:text-[10px] text-blue-600 font-mono font-black uppercase leading-none">{selectedReport.id} BERTARIKH {formatDate(selectedReport.createdAt)}</p>
                 </div>
               </div>
               <div className="flex gap-2">
-                {viewPrintMode && (
+                {viewPrintMode ? (
                   <button 
                     onClick={handlePrint}
-                    className="px-6 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-100"
+                    className="px-4 md:px-6 py-2 md:py-3 rounded-xl text-[10px] font-black transition-all flex items-center gap-2 bg-emerald-600 text-white hover:bg-emerald-700 shadow-lg shadow-emerald-200 active:scale-95"
                   >
-                    <Save size={16} /> SAVE PDF / PRINT
+                    <Save size={16} /> SIMPAN PDF / CETAK
+                  </button>
+                ) : (
+                  <button 
+                    onClick={() => setViewPrintMode(true)}
+                    className="px-4 md:px-5 py-2 md:py-3 rounded-xl text-[10px] font-black transition-all flex items-center gap-2 border-2 bg-blue-600 text-white border-blue-600 hover:bg-blue-700 shadow-md active:scale-95"
+                  >
+                    <Printer size={16} /> CETAK BPKP 4
                   </button>
                 )}
-                <button 
-                  onClick={() => setViewPrintMode(!viewPrintMode)}
-                  className="px-4 py-2.5 rounded-xl text-xs font-black transition-all flex items-center gap-2 border-2 bg-white text-blue-600 border-blue-100 hover:border-blue-500 shadow-sm"
-                >
-                  {viewPrintMode ? <ChevronRight className="rotate-180" size={16} /> : <Printer size={16} />}
-                  {viewPrintMode ? 'KEMBALI KE DETAIL' : 'CETAK BPKP 4'}
-                </button>
+                
+                {viewPrintMode && (
+                  <button 
+                    onClick={() => setViewPrintMode(false)}
+                    className="px-4 py-2 md:py-3 rounded-xl text-[10px] font-black transition-all flex items-center gap-2 border-2 bg-white text-slate-600 border-slate-200 hover:border-slate-400 active:scale-95"
+                  >
+                    KEMBALI
+                  </button>
+                )}
+
                 <button onClick={() => setSelectedReport(null)} className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
                   <ChevronRight className="rotate-45" size={24} />
                 </button>
@@ -504,10 +514,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                             <span className="text-slate-500 text-[10px] uppercase font-bold">Pangkat/Jawatan:</span>
                             <span className="font-black uppercase text-slate-800 text-right">{selectedReport.pangkatPemohon} ({selectedReport.jawatanPemohon})</span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-slate-500 text-[10px] uppercase font-bold">No. Rujukan Lama:</span>
-                            <span className="font-black uppercase text-slate-800">{selectedReport.noRujukanLama || '-'}</span>
-                          </div>
                         </div>
                       </section>
 
@@ -573,17 +579,6 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                         ))}
                       </div>
                     </section>
-
-                    <div className="pt-6 border-t flex flex-col md:flex-row justify-between items-center text-[9px] font-bold text-slate-400 uppercase gap-2 italic">
-                      <div className="flex items-center gap-1">
-                        <span>NO RUJUKAN DIGITAL:</span>
-                        <span className="text-blue-500 font-mono tracking-tighter">{selectedReport.id}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span>TARIKH DIHANTAR:</span>
-                        <span className="tracking-tighter">{new Date(selectedReport.createdAt).toLocaleString('ms-MY')}</span>
-                      </div>
-                    </div>
                   </div>
                 </>
               )}
