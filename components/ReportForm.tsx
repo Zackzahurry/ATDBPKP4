@@ -106,7 +106,7 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
             <div className="inline-block px-3 py-1 bg-white/10 rounded-full text-[10px] font-bold tracking-widest uppercase mb-4">Terhad</div>
             <h2 className="text-lg font-medium opacity-80 mb-1 uppercase tracking-wider text-slate-300">KERAJAAN MALAYSIA</h2>
             <h1 className="text-2xl font-black text-blue-400 tracking-tight">BORANG BPKP 4 ONLINE</h1>
-            <p className="text-sm mt-2 text-slate-400 font-medium">SISTEM PENGURUSAN SENGGARAAN PORT DICKSON</p>
+            <p className="text-sm mt-2 text-slate-400 font-medium tracking-wide uppercase">BPKP 4 ATD (Interim)</p>
           </div>
 
           <div className="p-6 md:p-10 space-y-10">
@@ -199,7 +199,9 @@ const ReportForm: React.FC<ReportFormProps> = ({ onSubmit, onSuccessRedirect }) 
                   <tbody className="divide-y divide-slate-200">
                     {formData.items.map((item, index) => (
                       <tr key={item.id} className="group hover:bg-white transition-colors">
-                        <td className="px-4 py-4 text-center font-bold text-slate-400">{index + 1}</td>
+                        <td className="px-4 py-4 text-center font-bold text-slate-400">
+                          {String.fromCharCode(97 + index)}.
+                        </td>
                         <td className="px-4 py-4">
                           <input required type="text" value={item.noBangunan} onChange={e => updateItem(item.id, 'noBangunan', e.target.value)} className="w-full bg-transparent outline-none focus:text-blue-600 font-bold uppercase" placeholder="No Bangunan & Kegunaan" />
                         </td>

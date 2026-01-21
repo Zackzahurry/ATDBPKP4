@@ -12,12 +12,12 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isAdmin }) => {
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      {/* Sidebar - Desktop */}
+      {/* Sidebar - Desktop / Tablet */}
       <aside className="hidden md:flex w-64 flex-col bg-slate-900 text-white sticky top-0 h-screen">
         <div className="p-6 border-b border-slate-800">
           <h1 className="text-xl font-bold flex items-center gap-2">
             <FileText className="text-blue-400" />
-            <span>BPKP 4 Digital</span>
+            <span>BPKP 4 ATD (Interim)</span>
           </h1>
           <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider">Kawasan: Port Dickson</p>
         </div>
@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isAd
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === 'REPORT' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}
           >
             <FileText size={20} />
-            <span>Mohon Senggaraan</span>
+            <span>Laporan</span>
           </button>
           
           <button 
@@ -36,7 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isAd
             className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition ${activeTab === 'DASHBOARD' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}
           >
             <LayoutDashboard size={20} />
-            <span>{isAdmin ? 'Semua Permohonan' : 'Laporan Saya'}</span>
+            <span>Status</span>
           </button>
         </nav>
         
@@ -45,11 +45,11 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isAd
         </div>
       </aside>
 
-      {/* Mobile Nav */}
+      {/* Mobile Nav - Phone */}
       <div className="md:hidden flex justify-around bg-slate-900 text-white p-3 fixed bottom-0 w-full z-50 border-t border-slate-800">
         <button onClick={() => setActiveTab('REPORT')} className={`flex flex-col items-center gap-1 ${activeTab === 'REPORT' ? 'text-blue-400' : 'text-slate-400'}`}>
           <FileText size={24} />
-          <span className="text-[10px]">Lapor</span>
+          <span className="text-[10px]">Laporan</span>
         </button>
         <button onClick={() => setActiveTab('DASHBOARD')} className={`flex flex-col items-center gap-1 ${activeTab === 'DASHBOARD' ? 'text-blue-400' : 'text-slate-400'}`}>
           <LayoutDashboard size={24} />
@@ -62,7 +62,7 @@ const Layout: React.FC<LayoutProps> = ({ children, activeTab, setActiveTab, isAd
         <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 sticky top-0 z-10">
           <div className="md:hidden font-bold text-slate-800 flex items-center gap-2">
              <FileText className="text-blue-600" size={20} />
-             <span>BPKP 4</span>
+             <span>BPKP 4 ATD</span>
           </div>
           <div className="hidden md:block"></div>
           <div className="flex items-center gap-4">

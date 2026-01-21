@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Layout from './components/Layout.tsx';
 import ReportForm from './components/ReportForm.tsx';
 import AdminDashboard from './components/AdminDashboard.tsx';
+import LandingPage from './components/LandingPage.tsx';
 import { MaintenanceReport, ReportStatus } from './types.ts';
 
 const INITIAL_REPORTS: MaintenanceReport[] = [
@@ -33,6 +34,7 @@ const INITIAL_REPORTS: MaintenanceReport[] = [
 ];
 
 const App: React.FC = () => {
+  const [isSystemAuthenticated, setIsSystemAuthenticated] = useState(false);
   const [activeTab, setActiveTab] = useState<'REPORT' | 'DASHBOARD'>('REPORT');
   const [reports, setReports] = useState<MaintenanceReport[]>(INITIAL_REPORTS);
   const [isAdminMode, setIsAdminMode] = useState(false);
@@ -56,6 +58,10 @@ const App: React.FC = () => {
     setActiveTab('DASHBOARD');
   };
 
+  if (!isSystemAuthenticated) {
+    return <LandingPage onLogin={() => setIsSystemAuthenticated(true)} />;
+  }
+
   return (
     <Layout activeTab={activeTab} setActiveTab={setActiveTab} isAdmin={isAdminMode}>
       <div className="flex flex-col gap-6">
@@ -65,13 +71,13 @@ const App: React.FC = () => {
               onClick={() => setIsAdminMode(false)}
               className={`px-8 py-2.5 rounded-xl font-black text-[10px] tracking-widest transition-all ${!isAdminMode ? 'bg-white shadow-md text-blue-600' : 'text-slate-500 hover:text-slate-800'}`}
             >
-              MOHON LAPORAN
+              LAPORAN
             </button>
             <button 
               onClick={() => setIsAdminMode(true)}
               className={`px-8 py-2.5 rounded-xl font-black text-[10px] tracking-widest transition-all ${isAdminMode ? 'bg-white shadow-md text-blue-600' : 'text-slate-500 hover:text-slate-800'}`}
             >
-              PENTADBIRAN / VIEW
+              PENTADBIR
             </button>
           </div>
         </div>

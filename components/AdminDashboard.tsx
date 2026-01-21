@@ -11,7 +11,8 @@ interface AdminDashboardProps {
 }
 
 const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport, isAdminMode }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  
   const [loginForm, setLoginForm] = useState({ username: '', password: '' });
   const [loginError, setLoginError] = useState(false);
 
@@ -26,8 +27,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (loginForm.username === 'admin' && loginForm.password === '12345') {
-      setIsAuthenticated(true);
+    // Admin login: Username: ADMIN, Password: 00000
+    if (loginForm.username.toUpperCase() === 'ADMIN' && loginForm.password === '00000') {
+      setIsAdminAuthenticated(true);
       setLoginError(false);
     } else {
       setLoginError(true);
@@ -53,7 +55,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
         <meta charset="UTF-8">
         <style>
           table { border-collapse: collapse; width: 100%; }
-          td, th { border: 1pt solid black; font-family: 'Arial Narrow', Arial; font-size: 10pt; padding: 4px; }
+          td, th { border: solid 1pt black; font-family: 'Arial Narrow', Arial; font-size: 10pt; padding: 4px; }
           .title { font-weight: bold; text-align: center; font-size: 12pt; border: none; }
           .header { font-weight: bold; text-align: center; background-color: #E5E7EB; }
           .center { text-align: center; }
@@ -147,6 +149,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
   };
 
   const filteredReports = reports.filter(r => 
+    r.noBangunanUtama.toLowerCase().includes(searchTerm.toLowerCase()) || 
     r.pasukan.toLowerCase().includes(searchTerm.toLowerCase()) || 
     r.id.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -165,16 +168,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
     return statusSteps.indexOf(currentStatus);
   };
 
-  if (isAdminMode && !isAuthenticated) {
+  // If in Admin Mode, always check for specific Admin credentials
+  if (isAdminMode && !isAdminAuthenticated) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center p-4">
         <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl border border-slate-200 overflow-hidden animate-in fade-in zoom-in duration-500">
           <div className="bg-slate-900 p-8 text-center text-white">
-            <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg shadow-blue-500/30">
+            <div className="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-4 shadow-lg bg-blue-600 shadow-blue-500/30">
               <Lock size={32} />
             </div>
-            <h2 className="text-xl font-black uppercase tracking-widest">Akses Pentadbir</h2>
-            <p className="text-xs text-slate-400 mt-2 font-medium">Sila masukkan kelayakan untuk teruskan</p>
+            <h2 className="text-xl font-black uppercase tracking-widest">
+              Akses Pentadbir
+            </h2>
+            <p className="text-xs text-slate-400 mt-2 font-medium">Khusus untuk Cwg Log Senggaraan sahaja</p>
           </div>
           <form onSubmit={handleLogin} className="p-8 space-y-5">
             {loginError && (
@@ -183,18 +189,18 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
               </div>
             )}
             <div>
-              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2 ml-1">ID Pengguna</label>
+              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2 ml-1 tracking-widest">ID Pentadbir</label>
               <input 
                 required
                 type="text" 
                 value={loginForm.username}
                 onChange={e => setLoginForm({...loginForm, username: e.target.value})}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold" 
-                placeholder="admin"
+                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold uppercase" 
+                placeholder="ADMIN"
               />
             </div>
             <div>
-              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2 ml-1">Kata Laluan</label>
+              <label className="block text-[10px] font-bold text-slate-500 uppercase mb-2 ml-1 tracking-widest">Kata Laluan</label>
               <input 
                 required
                 type="password" 
@@ -204,8 +210,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                 placeholder="••••••••"
               />
             </div>
-            <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black py-4 rounded-xl shadow-xl shadow-blue-100 transition-all active:scale-95 flex items-center justify-center gap-2 uppercase text-xs tracking-widest mt-4">
-              <LogIn size={18} /> LOG MASUK
+            <button type="submit" className="w-full text-white font-black py-4 rounded-xl shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2 uppercase text-xs tracking-widest mt-4 bg-blue-600 hover:bg-blue-700 shadow-blue-100">
+              <LogIn size={18} /> PENGESAHAN ADMIN
             </button>
           </form>
         </div>
@@ -213,6 +219,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
     );
   }
 
+  // Non-admin mode (Status check) no longer needs additional password because of the initial Landing Page
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 no-print">
@@ -238,7 +245,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
             <input 
               type="text" 
-              placeholder="Cari ID / Pasukan..."
+              placeholder="Cari Bangunan / Pasukan..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               className="pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm w-full md:w-64 transition-all shadow-sm font-medium"
@@ -272,9 +279,9 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                   {report.status === ReportStatus.COMPLETED ? <CheckCircle size={24} /> : <Clock size={24} />}
                 </div>
                 <div>
-                  <h4 className="font-black text-slate-800 uppercase tracking-tight">{report.pasukan}</h4>
+                  <h4 className="font-black text-slate-800 uppercase tracking-tight">{report.noBangunanUtama}</h4>
                   <p className="text-[10px] text-slate-500 font-mono font-black uppercase">
-                    {report.id} BERTARIKH {formatDate(report.createdAt)}
+                    {report.pasukan} | {report.id} BERTARIKH {formatDate(report.createdAt)}
                   </p>
                 </div>
               </div>
@@ -557,7 +564,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
                           <tbody className="divide-y divide-slate-100">
                             {selectedReport.items.map((item, idx) => (
                               <tr key={item.id} className="text-slate-700">
-                                <td className="px-4 py-3 text-center font-bold">{idx + 1}</td>
+                                <td className="px-4 py-3 text-center font-bold">{String.fromCharCode(97 + idx)}.</td>
                                 <td className="px-4 py-3 font-black uppercase">{item.noBangunan}</td>
                                 <td className="px-4 py-3 uppercase">{item.butiranKerja}</td>
                                 <td className="px-4 py-3 text-center font-bold">{item.kuantiti}</td>
