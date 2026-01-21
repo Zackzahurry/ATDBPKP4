@@ -43,17 +43,19 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
       a.noBangunanUtama.localeCompare(b.noBangunanUtama, undefined, { numeric: true })
     );
 
-    // Menggunakan teknik HTML Table untuk membolehkan styling, merging (colspan/rowspan) dan alignment dalam Excel
-    let excelTemplate = `
+    let htmlExcel = `
       <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
       <head>
         <meta charset="UTF-8">
         <style>
-          .title { font-family: Arial; font-size: 14pt; font-weight: bold; text-align: center; }
-          .header-row { font-family: Arial; font-size: 10pt; font-weight: bold; text-align: center; background-color: #E2E8F0; border: 1px solid black; }
-          .data-cell { font-family: Arial; font-size: 10pt; border: 1px solid black; padding: 4px; }
+          table { border-collapse: collapse; width: 100%; }
+          td, th { border: 1pt solid black; font-family: 'Arial Narrow', Arial; font-size: 10pt; padding: 4px; }
+          .title { font-weight: bold; text-align: center; font-size: 12pt; border: none; }
+          .header { font-weight: bold; text-align: center; background-color: #E5E7EB; }
           .center { text-align: center; }
-          .bg-yellow { background-color: #FFFF00; font-weight: bold; text-align: center; border: 1px solid black; }
+          .v-top { vertical-align: top; }
+          .bg-yellow { background-color: #FFFF00; font-weight: bold; text-align: center; }
+          .bold { font-weight: bold; }
         </style>
       </head>
       <body>
@@ -61,71 +63,67 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ reports, onUpdateReport
           <tr><td colspan="11" class="title">SKOP KERJA SENGGARAAN KOREKTIF DASAR SEDIA ADA (TAMBAHAN) TAHUN 2027</td></tr>
           <tr><td colspan="11" class="title">PASUKAN AKADEMI TENTERA DARAT</td></tr>
           <tr><td colspan="11" class="title">KEM SEGENTING</td></tr>
-          <tr><td colspan="11"></td></tr>
+          <tr><td colspan="11" style="border:none;">&nbsp;</td></tr>
           
-          <tr>
-            <td rowspan="2" class="header-row">BIL</td>
-            <td rowspan="2" class="header-row">PASUKAN</td>
-            <td rowspan="2" class="header-row">KEM/LOKASI</td>
-            <td rowspan="2" class="header-row">NO BANGUNAN/<br>KEGUNAAN</td>
-            <td rowspan="2" class="header-row">SKOP KERJA</td>
-            <td colspan="3" class="header-row">ANGGARAN KOS (RM)</td>
-            <td rowspan="2" class="header-row">JUMLAH (RM)</td>
-            <td rowspan="2" class="header-row">KEUTAMAAN</td>
-            <td rowspan="2" class="header-row">JANGKAMASA<br>PROJEK</td>
+          <tr class="header">
+            <td rowspan="2">BIL</td>
+            <td rowspan="2">PASUKAN</td>
+            <td rowspan="2">KEM/LOKASI</td>
+            <td rowspan="2">NO BANGUNAN/<br>KEGUNAAN</td>
+            <td rowspan="2">SKOP KERJA</td>
+            <td colspan="3">ANGGARAN KOS (RM)</td>
+            <td rowspan="2">JUMLAH (RM)</td>
+            <td rowspan="2">KEUTAMAAN</td>
+            <td rowspan="2">JANGKAMASA<br>PROJEK</td>
           </tr>
-          <tr>
-            <td class="header-row">AWAM</td>
-            <td class="header-row">ELEKTRIK</td>
-            <td class="header-row">MEKANIKAL</td>
+          <tr class="header">
+            <td>AWAM</td>
+            <td>ELEKTRIK</td>
+            <td>MEKANIKAL</td>
           </tr>
-          <tr class="header-row" style="background-color: #F8FAFC;">
-            <td>(a)</td><td>(b)</td><td>(c)</td><td>(d)</td><td>(e)</td><td>(f)</td><td>(g)</td><td>(h)</td><td>(i)</td><td>(j)</td><td>(k)</td>
+          <tr class="header" style="background-color: #F9FAFB;">
+            <td class="center">(a)</td><td class="center">(b)</td><td class="center">(c)</td><td class="center">(d)</td><td class="center">(e)</td><td class="center">(f)</td><td class="center">(g)</td><td class="center">(h)</td><td class="center">(i)</td><td class="center">(j)</td><td class="center">(k)</td>
           </tr>
           <tr><td colspan="11" class="bg-yellow">PENGINAPAN</td></tr>
     `;
 
     sortedReports.forEach((r, index) => {
-      const skopKerjaHtml = r.items
+      const skopFormatted = r.items
         .map((item, idx) => `${String.fromCharCode(97 + idx)}. ${item.butiranKerja}`)
         .join('<br>');
 
-      const isAwam = r.jenisKerja.includes('AWAM');
-      const isElektrik = r.jenisKerja.includes('ELEKTRIK');
-      const isMekanikal = r.jenisKerja.includes('MEKANIKAL');
+      const awam = r.jenisKerja.includes('AWAM') ? '0.00' : '';
+      const elektrik = r.jenisKerja.includes('ELEKTRIK') ? '0.00' : '';
+      const mekanikal = r.jenisKerja.includes('MEKANIKAL') ? '0.00' : '';
 
-      excelTemplate += `
+      htmlExcel += `
         <tr>
-          <td class="data-cell center">${index + 1}</td>
-          <td class="data-cell">${r.pasukan}</td>
-          <td class="data-cell">${r.kem}</td>
-          <td class="data-cell center" style="font-weight: bold;">${r.noBangunanUtama}</td>
-          <td class="data-cell">${skopKerjaHtml}</td>
-          <td class="data-cell center">${isAwam ? '0.00' : ''}</td>
-          <td class="data-cell center">${isElektrik ? '0.00' : ''}</td>
-          <td class="data-cell center">${isMekanikal ? '0.00' : ''}</td>
-          <td class="data-cell center" style="font-weight: bold;">0.00</td>
-          <td class="data-cell"></td>
-          <td class="data-cell"></td>
+          <td class="center v-top">${index + 1}</td>
+          <td class="v-top">${r.pasukan}</td>
+          <td class="v-top">${r.kem}</td>
+          <td class="center v-top bold">${r.noBangunanUtama}</td>
+          <td class="v-top">${skopFormatted}</td>
+          <td class="center v-top">${awam}</td>
+          <td class="center v-top">${elektrik}</td>
+          <td class="center v-top">${mekanikal}</td>
+          <td class="center v-top bold">0.00</td>
+          <td class="center v-top"></td>
+          <td class="center v-top"></td>
         </tr>
       `;
     });
 
-    excelTemplate += `
+    htmlExcel += `
         </table>
       </body>
       </html>
     `;
 
-    const blob = new Blob([excelTemplate], { type: 'application/vnd.ms-excel' });
+    const blob = new Blob([htmlExcel], { type: 'application/vnd.ms-excel' });
     const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `SKOP_KERJA_SENGGARAAN_2027.xls`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
+    link.href = URL.createObjectURL(blob);
+    link.download = `PELAPORAN_BPKP4_2027.xls`;
     link.click();
-    document.body.removeChild(link);
   };
 
   const handleUpdate = () => {
